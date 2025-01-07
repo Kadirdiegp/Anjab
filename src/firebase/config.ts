@@ -4,6 +4,9 @@ import { getAnalytics, Analytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
+// For debugging
+console.log('All env vars:', import.meta.env);
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
