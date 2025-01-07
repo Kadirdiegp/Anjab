@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { initializeAnalytics } from '../../firebase/config';
+import { getAnalytics } from 'firebase/analytics';
+import app from '../../firebase/config';
 
 const BannerContainer = styled.div<{ $isVisible: boolean }>`
   position: fixed;
@@ -74,8 +75,8 @@ const CookieBanner: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const hasAcceptedCookies = localStorage.getItem('cookiesAccepted');
-    if (!hasAcceptedCookies) {
+    const cookiesAccepted = localStorage.getItem('cookiesAccepted');
+    if (cookiesAccepted === null) {
       setIsVisible(true);
     }
   }, []);
@@ -83,13 +84,16 @@ const CookieBanner: React.FC = () => {
   const handleAccept = () => {
     localStorage.setItem('cookiesAccepted', 'true');
     setIsVisible(false);
-    initializeAnalytics(); // Initialize analytics after consent
+    // Initialize analytics after accepting cookies
+    getAnalytics(app);
   };
 
   const handleDecline = () => {
     localStorage.setItem('cookiesAccepted', 'false');
     setIsVisible(false);
   };
+
+  if (!isVisible) return null;
 
   return (
     <BannerContainer $isVisible={isVisible}>
