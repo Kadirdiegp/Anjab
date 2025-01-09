@@ -4,7 +4,6 @@ import Gallery from '../home/Gallery';
 import Services from '../services/Services';
 import AboutUs from '../home/AboutUs';
 import Contact from '../contact/Contact';
-import BookingForm from '../booking/BookingForm';
 
 const Home: React.FC = () => {
   return (
@@ -18,9 +17,6 @@ const Home: React.FC = () => {
       </section>
       <section id="about">
         <AboutUs />
-      </section>
-      <section id="booking">
-        <BookingForm />
       </section>
       <section id="contact">
         <Contact />

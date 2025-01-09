@@ -5,6 +5,8 @@ const theme = {
     background: '#E8DFE0',
     text: '#000000',
     accent: '#D4C4C5',
+    error: '#f44336',
+    success: '#4CAF50'
   },
   fonts: {
     heading: "'Italiana', serif",

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaInstagram, FaFacebook } from 'react-icons/fa';
+import LogoImage from '../../assets/images/HAAR.png';
 
 const FooterWrapper = styled.footer`
   background: #000;
@@ -110,6 +111,16 @@ const LegalLinks = styled.div`
   }
 `;
 
+const FooterLogo = styled.div`
+  display: block;
+  margin-bottom: 1rem;
+  
+  img {
+    height: 60px;
+    width: auto;
+  }
+`;
+
 const Footer: React.FC = () => {
   const openingHours = [
     { day: 'Montag', hours: 'Geschlossen' },
@@ -125,6 +136,9 @@ const Footer: React.FC = () => {
     <FooterWrapper>
       <FooterContainer>
         <FooterSection>
+          <FooterLogo>
+            <img src={LogoImage} alt="Haarambiente Logo" />
+          </FooterLogo>
           <h3>Öffnungszeiten</h3>
           <OpeningHours>
             {openingHours.map((item, index) => (

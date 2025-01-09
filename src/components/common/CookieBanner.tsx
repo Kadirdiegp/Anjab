@@ -1,73 +1,46 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { getAnalytics } from 'firebase/analytics';
-import app from '../../firebase/config';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 
-const BannerContainer = styled.div<{ $isVisible: boolean }>`
+const BannerContainer = styled.div`
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(255, 255, 255, 0.95);
+  background-color: ${props => props.theme.colors.background};
   padding: 1rem;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-  transform: ${props => props.$isVisible ? 'translateY(0)' : 'translateY(100%)'};
-  transition: transform 0.3s ease-in-out;
   z-index: 1000;
-`;
-
-const Content = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
-  padding: 0 1rem;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    text-align: center;
-  }
 `;
 
-const Text = styled.p`
+const Message = styled.p`
   margin: 0;
   font-size: 0.9rem;
   color: ${props => props.theme.colors.text};
-  line-height: 1.5;
 `;
 
 const ButtonGroup = styled.div`
   display: flex;
   gap: 1rem;
-  flex-shrink: 0;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    width: 100%;
-  }
 `;
 
-const Button = styled.button<{ $isPrimary?: boolean }>`
+const Button = styled.button<{ $primary?: boolean }>`
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 0.9rem;
   transition: all 0.3s ease;
-  background: ${props => props.$isPrimary ? props.theme.colors.primary : 'transparent'};
-  color: ${props => props.$isPrimary ? 'white' : props.theme.colors.primary};
-  border: 1px solid ${props => props.theme.colors.primary};
+  background: ${props => props.$primary ? props.theme.colors.primary : 'transparent'};
+  color: ${props => props.$primary ? '#fff' : props.theme.colors.text};
+  border: 1px solid ${props => props.$primary ? 'transparent' : props.theme.colors.text};
 
   &:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
-  }
-
-  @media (max-width: 768px) {
-    width: 100%;
-    padding: 0.75rem 1rem;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
 `;
 
@@ -75,39 +48,35 @@ const CookieBanner: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const cookiesAccepted = localStorage.getItem('cookiesAccepted');
-    if (cookiesAccepted === null) {
+    const consent = localStorage.getItem("cookieConsent");
+    if (!consent) {
       setIsVisible(true);
     }
   }, []);
 
   const handleAccept = () => {
-    localStorage.setItem('cookiesAccepted', 'true');
+    localStorage.setItem("cookieConsent", "accepted");
     setIsVisible(false);
-    // Initialize analytics after accepting cookies
-    getAnalytics(app);
   };
 
   const handleDecline = () => {
-    localStorage.setItem('cookiesAccepted', 'false');
+    localStorage.setItem("cookieConsent", "declined");
     setIsVisible(false);
   };
 
   if (!isVisible) return null;
 
   return (
-    <BannerContainer $isVisible={isVisible}>
-      <Content>
-        <Text>
-          Wir verwenden Cookies, um Ihre Erfahrung auf unserer Website zu verbessern. 
-          Durch die weitere Nutzung unserer Website stimmen Sie der Verwendung von Cookies zu. 
-          Sie können Ihre Cookie-Einstellungen jederzeit ändern.
-        </Text>
-        <ButtonGroup>
-          <Button onClick={handleDecline}>Ablehnen</Button>
-          <Button $isPrimary onClick={handleAccept}>Akzeptieren</Button>
-        </ButtonGroup>
-      </Content>
+    <BannerContainer>
+      <Message>
+        Diese Website verwendet Cookies, um Ihr Browsing-Erlebnis zu verbessern.
+      </Message>
+      <ButtonGroup>
+        <Button onClick={handleDecline}>Ablehnen</Button>
+        <Button $primary onClick={handleAccept}>
+          Akzeptieren
+        </Button>
+      </ButtonGroup>
     </BannerContainer>
   );
 };
