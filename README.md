@@ -1,91 +1,60 @@
-# Luxury Hair Salon Website
+# Haar Ambiente Website
 
-A modern and luxurious website for a high-end hair salon, built with React, TypeScript, and Styled Components.
+Modern and elegant website for Haar Ambiente, a premium hair salon in Cuxhaven.
 
 ## Features
 
-- Responsive design optimized for all devices
-- Modern and elegant UI with smooth animations
-- Interactive service booking system
-- Image gallery with lightbox
-- Contact form with validation
-- Social media integration
-- Google Maps integration (to be implemented)
+- Modern, responsive design
+- Smooth scroll navigation
+- Interactive gallery
+- Service overview
+- Contact information
+- Opening hours
+- Mobile-friendly interface
 
-## Technologies Used
+## Tech Stack
 
 - React 18
 - TypeScript
 - Styled Components
+- React Router
 - Vite
-- React Icons
 
 ## Getting Started
 
-1. Clone the repository:
 ```bash
-git clone [repository-url]
-cd luxury-salon
-```
-
-2. Install dependencies:
-```bash
+# Install dependencies
 npm install
-```
 
-3. Start the development server:
-```bash
+# Run development server
 npm run dev
-```
 
-4. Open your browser and visit `http://localhost:3000`
-
-## Building for Production
-
-To create a production build:
-
-```bash
+# Build for production
 npm run build
 ```
-
-The built files will be in the `dist` directory.
 
 ## Project Structure
 
 ```
-luxury-salon/
-├── src/
-│   ├── components/
-│   │   ├── layout/
-│   │   │   └── Navbar.tsx
-│   │   ├── home/
-│   │   │   ├── Hero.tsx
-│   │   │   ├── AboutUs.tsx
-│   │   │   └── Gallery.tsx
-│   │   ├── services/
-│   │   │   └── Services.tsx
-│   │   └── contact/
-│   │       └── Contact.tsx
-│   ├── styles/
-│   │   └── index.css
-│   ├── assets/
-│   │   └── images/
-│   ├── App.tsx
-│   └── main.tsx
-├── public/
-├── index.html
-└── package.json
+src/
+├── components/     # Reusable components
+│   ├── home/      # Home page components
+│   ├── layout/    # Layout components
+│   └── services/  # Service components
+├── pages/         # Page components
+├── styles/        # Global styles and theme
+└── assets/        # Images and static files
 ```
 
-## Contributing
+## Developer
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+**Kadir Diego Padin Rodriguez**  
+Full Stack Developer & Digital Designer
+
+- Website: [rodriguez-digital.de](https://rodriguez-digital.de)
+- Email: contact@rodriguez-digital.de
+- LinkedIn: [/in/kadir-rodriguez](https://linkedin.com/in/kadir-rodriguez)
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
-# Anjab
+MIT  Rodriguez Digital. All rights reserved.

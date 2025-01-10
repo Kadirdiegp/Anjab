@@ -7,8 +7,10 @@ import Contact from '../contact/Contact';
 
 const Home: React.FC = () => {
   return (
-    <>
-      <Hero />
+    <main>
+      <section id="home">
+        <Hero />
+      </section>
       <section id="gallery">
         <Gallery />
       </section>
@@ -21,7 +23,7 @@ const Home: React.FC = () => {
       <section id="contact">
         <Contact />
       </section>
-    </>
+    </main>
   );
 };
 

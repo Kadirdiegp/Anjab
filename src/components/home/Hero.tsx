@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { FaPlay } from 'react-icons/fa';
+import gsap from 'gsap';
+import { Link } from 'react-router-dom';
 
 const HeroSection = styled.section`
   min-height: 100vh;
@@ -103,78 +105,75 @@ const Headline = styled.h1`
 
 const ButtonGroup = styled.div`
   display: flex;
-  gap: 2rem;
+  gap: 1.5rem;
   align-items: center;
 
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: flex-start;
-    gap: 1.5rem;
+    gap: 1rem;
   }
 `;
 
-const PrimaryButton = styled.button`
-  padding: 1rem 2.5rem;
-  border-radius: 100px;
-  background: #000;
-  color: #fff;
-  border: none;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
+const PrimaryButton = styled(Link)`
+  background: ${props => props.theme.colors.accent};
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 30px;
   font-family: ${props => props.theme.fonts.body};
-  white-space: nowrap;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
+  border: 2px solid ${props => props.theme.colors.accent};
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-  }
-
-  @media (max-width: 768px) {
-    width: 100%;
-    padding: 0.875rem 2rem;
-    font-size: 0.9rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    background: transparent;
+    color: ${props => props.theme.colors.accent};
   }
 `;
 
-const SecondaryButton = styled.button`
+const SecondaryButton = styled(Link)`
   display: flex;
   align-items: center;
-  gap: 1rem;
-  background: transparent;
-  border: none;
-  color: #000;
-  font-size: 1rem;
-  cursor: pointer;
-  padding: 0;
-  font-family: ${props => props.theme.fonts.body};
+  gap: 0.8rem;
+  color: ${props => props.theme.colors.primary};
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
 
   .play-icon {
-    width: 48px;
-    height: 48px;
-    background: rgba(255, 255, 255, 0.9);
+    width: 40px;
+    height: 40px;
+    background: white;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    
+    svg {
+      width: 12px;
+      height: 12px;
+      margin-left: 2px;
+      color: ${props => props.theme.colors.accent};
+    }
   }
 
-  &:hover .play-icon {
-    transform: scale(1.1);
-    background: #fff;
-  }
-
-  @media (max-width: 768px) {
-    width: 100%;
-    justify-content: flex-start;
-    font-size: 0.9rem;
-
+  &:hover {
+    transform: translateY(-2px);
+    
     .play-icon {
-      width: 40px;
-      height: 40px;
+      background: ${props => props.theme.colors.accent};
+      
+      svg {
+        color: white;
+      }
     }
   }
 `;
@@ -221,29 +220,102 @@ const HeroImage = styled.img`
 `;
 
 const Hero: React.FC = () => {
+  const locationRef = useRef<HTMLDivElement>(null);
+  const headlineRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Ensure all refs are available
+    if (!locationRef.current || !headlineRef.current || !imageRef.current || !buttonRef.current) return;
+
+    // Clear any existing animations
+    gsap.context(() => {
+      gsap.set([locationRef.current, headlineRef.current, imageRef.current, buttonRef.current], {
+        opacity: 0,
+        y: 50
+      });
+
+      const tl = gsap.timeline({
+        defaults: { 
+          duration: 1,
+          ease: "power3.out"
+        }
+      });
+
+      // Main animation sequence
+      tl.to(locationRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8
+      })
+      .to(headlineRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 1
+      }, "-=0.3")
+      .to(imageRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 1
+      }, "-=0.5")
+      .to(buttonRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8
+      }, "-=0.3");
+
+      // Add hover animation for button
+      if (buttonRef.current) {
+        buttonRef.current.addEventListener('mouseenter', () => {
+          gsap.to(buttonRef.current, {
+            scale: 1.05,
+            duration: 0.3,
+            ease: "power2.out"
+          });
+        });
+
+        buttonRef.current.addEventListener('mouseleave', () => {
+          gsap.to(buttonRef.current, {
+            scale: 1,
+            duration: 0.3,
+            ease: "power2.out"
+          });
+        });
+      }
+    });
+
+    // Cleanup function
+    return () => {
+      gsap.killTweensOf([locationRef.current, headlineRef.current, imageRef.current, buttonRef.current]);
+    };
+  }, []);
+
   return (
-    <HeroSection id="start">
+    <HeroSection>
       <HeroContainer>
         <HeroContent>
-          <Location>
-            <LocationText>Cuxhaven, Deutschland</LocationText>
+          <Location ref={locationRef}>
+            <LocationText>Haar Ambiente - Cuxhaven</LocationText>
           </Location>
-          <Headline>
-            Alles für die
-            Schönheit Ihrer
-            <span>Haare</span>
-          </Headline>
-          <ButtonGroup>
-            <PrimaryButton>Jetzt Buchen</PrimaryButton>
-            <SecondaryButton>
+          <div ref={headlineRef}>
+            <Headline>
+              Entdecke deine <span>natürliche Schönheit</span>
+            </Headline>
+          </div>
+          <ButtonGroup ref={buttonRef}>
+            <PrimaryButton to="/services">
+              Unsere Services
+            </PrimaryButton>
+            <SecondaryButton to="/galerie">
               <div className="play-icon">
-                <FaPlay size={12} />
+                <FaPlay />
               </div>
-              Salon ansehen
+              <span>Galerie ansehen</span>
             </SecondaryButton>
           </ButtonGroup>
         </HeroContent>
-        <ImageContainer>
+        <ImageContainer ref={imageRef}>
           <HeroImage 
             src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
             alt="Frau mit gestylten Haaren"

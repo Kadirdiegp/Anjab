@@ -1,192 +1,322 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+import { Link } from 'react-router-dom';
+import WhiteLogo from '../../assets/images/2.png';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaInstagram, FaFacebook } from 'react-icons/fa';
-import LogoImage from '../../assets/images/HAAR.png';
 
-const FooterWrapper = styled.footer`
-  background: #000;
-  color: #fff;
-  padding: 4rem 0 2rem 0;
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 `;
 
-const FooterContainer = styled.div`
+const pulse = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+`;
+
+const FooterContainer = styled.footer`
+  background: #000000;
+  color: white;
+  padding: 5rem 0 2rem 0;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(to right, ${props => props.theme.colors.primary}, ${props => props.theme.colors.accent});
+  }
+`;
+
+const FooterContent = styled.div`
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 3rem;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 4rem;
+  align-items: start;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr 1fr;
+  }
 
   @media (max-width: 768px) {
-    padding: 0 1.5rem;
-    gap: 2rem;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    text-align: center;
   }
 `;
 
-const FooterSection = styled.div`
+const Section = styled.div`
+  animation: ${fadeIn} 0.6s ease-out;
+
   h3 {
     font-family: ${props => props.theme.fonts.heading};
+    color: ${props => props.theme.colors.accent};
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
-    font-weight: 400;
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -8px;
+      width: 40px;
+      height: 2px;
+      background: ${props => props.theme.colors.accent};
+      transition: width 0.3s ease;
+    }
+
+    &:hover::after {
+      width: 60px;
+    }
+
+    @media (max-width: 768px) {
+      &::after {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
   }
 `;
 
-const OpeningHours = styled.div`
-  display: grid;
-  gap: 0.5rem;
-`;
-
-const Day = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-
-  span {
-    color: rgba(255, 255, 255, 0.8);
-  }
-`;
-
-const ContactInfo = styled.div`
-  display: grid;
-  gap: 1rem;
-`;
-
-const ContactItem = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  color: rgba(255, 255, 255, 0.8);
-
-  svg {
-    font-size: 1.2rem;
-  }
-
-  a {
-    color: inherit;
-    text-decoration: none;
-    transition: color 0.3s ease;
+const ContactInfo = styled(Section)`
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+    transition: transform 0.3s ease;
 
     &:hover {
-      color: #fff;
+      transform: translateX(10px);
     }
+
+    @media (max-width: 768px) {
+      justify-content: center;
+      &:hover {
+        transform: translateY(-5px);
+      }
+    }
+
+    svg {
+      color: ${props => props.theme.colors.accent};
+      font-size: 1.2rem;
+    }
+
+    a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: ${props => props.theme.colors.accent};
+      }
+    }
+  }
+`;
+
+const OpeningHours = styled(Section)`
+  .hours-grid {
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .day-row {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-bottom-color: ${props => props.theme.colors.accent};
+      transform: translateX(10px);
+    }
+
+    @media (max-width: 768px) {
+      &:hover {
+        transform: translateY(-5px);
+      }
+    }
+  }
+`;
+
+const LogoSection = styled(Section)`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2rem;
+
+  @media (max-width: 768px) {
+    align-items: center;
+  }
+`;
+
+const FooterLogo = styled(Link)`
+  display: block;
+  transition: transform 0.3s ease;
+
+  img {
+    height: 120px;
+    width: auto;
+    filter: brightness(1);
+  }
+
+  &:hover {
+    animation: ${pulse} 1s ease infinite;
   }
 `;
 
 const SocialLinks = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
   margin-top: 1rem;
 
   a {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 1.5rem;
+    color: white;
+    font-size: 1.8rem;
     transition: all 0.3s ease;
 
     &:hover {
-      color: #fff;
-      transform: translateY(-2px);
+      color: ${props => props.theme.colors.accent};
+      transform: translateY(-5px);
     }
   }
 `;
 
-const LegalLinks = styled.div`
-  margin-top: 3rem;
+const Copyright = styled.div`
+  text-align: center;
+  margin-top: 4rem;
   padding-top: 2rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  text-align: center;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.7);
   font-size: 0.9rem;
+  animation: ${fadeIn} 0.6s ease-out;
 
   a {
-    color: inherit;
+    color: ${props => props.theme.colors.accent};
     text-decoration: none;
     margin: 0 1rem;
     transition: color 0.3s ease;
 
     &:hover {
-      color: #fff;
+      color: white;
+    }
+  }
+
+  .developer-credit {
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    a {
+      color: ${props => props.theme.colors.accent};
+      margin: 0;
     }
   }
 `;
 
-const FooterLogo = styled.div`
-  display: block;
-  margin-bottom: 1rem;
-  
-  img {
-    height: 60px;
-    width: auto;
-  }
-`;
-
 const Footer: React.FC = () => {
-  const openingHours = [
-    { day: 'Montag', hours: 'Geschlossen' },
-    { day: 'Dienstag', hours: '09:00 - 18:00' },
-    { day: 'Mittwoch', hours: '09:00 - 18:00' },
-    { day: 'Donnerstag', hours: '09:00 - 18:00' },
-    { day: 'Freitag', hours: '09:00 - 18:00' },
-    { day: 'Samstag', hours: '09:00 - 16:00' },
-    { day: 'Sonntag', hours: 'Geschlossen' },
-  ];
+  const handleLogoClick = (e: React.MouseEvent) => {
+    if (window.location.pathname === '/') {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
   return (
-    <FooterWrapper>
-      <FooterContainer>
-        <FooterSection>
-          <FooterLogo>
-            <img src={LogoImage} alt="Haarambiente Logo" />
-          </FooterLogo>
-          <h3>Öffnungszeiten</h3>
-          <OpeningHours>
-            {openingHours.map((item, index) => (
-              <Day key={index}>
-                <span>{item.day}</span>
-                <span>{item.hours}</span>
-              </Day>
-            ))}
-          </OpeningHours>
-        </FooterSection>
-
-        <FooterSection>
+    <FooterContainer>
+      <FooterContent>
+        <ContactInfo>
           <h3>Kontakt</h3>
-          <ContactInfo>
-            <ContactItem>
-              <FaPhone />
-              <a href="tel:+4947216814680">04721 681468</a>
-            </ContactItem>
-            <ContactItem>
-              <FaEnvelope />
-              <a href="mailto:info@haararmbiente.de">info@haararmbiente.de</a>
-            </ContactItem>
-            <ContactItem>
-              <FaMapMarkerAlt />
-              <address>
-                Neustraße 19<br />
-                27472 Cuxhaven
-              </address>
-            </ContactItem>
-            <SocialLinks>
-              <a href="https://instagram.com/haararmbiente" target="_blank" rel="noopener noreferrer">
-                <FaInstagram />
-              </a>
-              <a href="https://facebook.com/haararmbiente" target="_blank" rel="noopener noreferrer">
-                <FaFacebook />
-              </a>
-            </SocialLinks>
-          </ContactInfo>
-        </FooterSection>
-      </FooterContainer>
-      
-      <LegalLinks>
-        <a href="/impressum">Impressum</a>
-        <a href="/datenschutz">Datenschutz</a>
-        <a href="/agb">AGB</a>
-        <p> {new Date().getFullYear()} Haarambiente. Alle Rechte vorbehalten.</p>
-      </LegalLinks>
-    </FooterWrapper>
+          <div className="contact-item">
+            <FaPhone />
+            <a href="tel:+4947219656511">04721 96 56 511</a>
+          </div>
+          <div className="contact-item">
+            <FaEnvelope />
+            <a href="mailto:info@haar-ambiente.de">info@haar-ambiente.de</a>
+          </div>
+          <div className="contact-item">
+            <FaMapMarkerAlt />
+            <p>Ahnstraße 22, 27472 Cuxhaven</p>
+          </div>
+        </ContactInfo>
+
+        <OpeningHours>
+          <h3>Öffnungszeiten</h3>
+          <div className="hours-grid">
+            <div className="day-row">
+              <span>Montag</span>
+              <span>Geschlossen</span>
+            </div>
+            <div className="day-row">
+              <span>Dienstag - Freitag</span>
+              <span>09:00 - 18:00</span>
+            </div>
+            <div className="day-row">
+              <span>Samstag</span>
+              <span>08:00 - 13:00</span>
+            </div>
+            <div className="day-row">
+              <span>Sonntag</span>
+              <span>Geschlossen</span>
+            </div>
+          </div>
+        </OpeningHours>
+
+        <LogoSection>
+          <FooterLogo to="/" onClick={handleLogoClick}>
+            <img src={WhiteLogo} alt="Haar Ambiente Logo" />
+          </FooterLogo>
+          <SocialLinks>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+              <FaInstagram />
+            </a>
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+              <FaFacebook />
+            </a>
+          </SocialLinks>
+        </LogoSection>
+      </FooterContent>
+
+      <Copyright>
+        <p>&copy; {new Date().getFullYear()} Haar Ambiente</p>
+        <div>
+          <a href="/impressum">Impressum</a>
+          <a href="/datenschutz">Datenschutz</a>
+          <a href="/agb">AGB</a>
+        </div>
+        <div className="developer-credit">
+          Entwickelt von <a href="https://rodriguez-digital.de" target="_blank" rel="noopener noreferrer">Kadir Diego Padin Rodriguez</a>
+        </div>
+      </Copyright>
+    </FooterContainer>
   );
 };
 
