@@ -4,6 +4,9 @@
  * @website rodriguez-digital.de
  */
 
+const SITE_URL = 'https://haarambiente.netlify.app';
+const DEFAULT_IMAGE = `${SITE_URL}/images/salon-preview.jpg`;
+
 interface MetaTag {
   name?: string;
   property?: string;
@@ -16,86 +19,103 @@ interface StructuredData {
   [key: string]: any;
 }
 
-export const updateMetaTags = (tags: MetaTag[]) => {
-  // Remove existing meta tags
-  const existingTags = document.head.querySelectorAll('meta[data-dynamic="true"]');
-  existingTags.forEach(tag => tag.remove());
+export const getDefaultMetaTags = (
+  title: string,
+  description: string,
+  image: string = DEFAULT_IMAGE
+): MetaTag[] => [
+  // Primary Meta Tags
+  { name: 'title', content: title },
+  { name: 'description', content: description },
+  
+  // Open Graph / Facebook
+  { property: 'og:type', content: 'website' },
+  { property: 'og:url', content: SITE_URL },
+  { property: 'og:title', content: title },
+  { property: 'og:description', content: description },
+  { property: 'og:image', content: image },
+  { property: 'og:site_name', content: 'Haar Ambiente Cuxhaven' },
+  { property: 'og:locale', content: 'de_DE' },
+  
+  // Twitter
+  { name: 'twitter:card', content: 'summary_large_image' },
+  { name: 'twitter:url', content: SITE_URL },
+  { name: 'twitter:title', content: title },
+  { name: 'twitter:description', content: description },
+  { name: 'twitter:image', content: image },
+  
+  // Geo Tags
+  { name: 'geo.region', content: 'DE-NI' },
+  { name: 'geo.placename', content: 'Cuxhaven' },
+  { name: 'geo.position', content: '53.8667;8.7' },
+  { name: 'ICBM', content: '53.8667, 8.7' },
+  
+  // Additional Tags
+  { name: 'theme-color', content: '#ffffff' },
+  { name: 'format-detection', content: 'telephone=no' }
+];
 
-  // Add new meta tags
+export const updateMetaTags = (tags: MetaTag[]): void => {
+  // Entferne bestehende Meta-Tags
+  document.querySelectorAll('meta').forEach(meta => {
+    if (meta.getAttribute('name') || meta.getAttribute('property')) {
+      meta.remove();
+    }
+  });
+
+  // Füge neue Meta-Tags hinzu
   tags.forEach(tag => {
     const meta = document.createElement('meta');
-    meta.dataset.dynamic = 'true';
-    
-    if (tag.name) meta.name = tag.name;
+    if (tag.name) meta.setAttribute('name', tag.name);
     if (tag.property) meta.setAttribute('property', tag.property);
-    
-    meta.content = tag.content;
+    meta.setAttribute('content', tag.content);
     document.head.appendChild(meta);
   });
 };
 
-export const injectStructuredData = (data: StructuredData) => {
-  // Remove existing structured data
-  const existingScript = document.head.querySelector('script[type="application/ld+json"]');
-  if (existingScript) existingScript.remove();
+export const injectStructuredData = (data: any): void => {
+  // Entferne bestehende strukturierte Daten
+  const existingScript = document.querySelector('script[type="application/ld+json"]');
+  if (existingScript) {
+    existingScript.remove();
+  }
 
-  // Add new structured data
+  // Füge neue strukturierte Daten hinzu
   const script = document.createElement('script');
   script.type = 'application/ld+json';
   script.text = JSON.stringify(data);
   document.head.appendChild(script);
 };
 
-export const getDefaultMetaTags = (
-  title: string,
-  description: string,
-  image: string
-): MetaTag[] => [
-  // Basic Meta Tags
-  { name: 'description', content: description },
-  { name: 'robots', content: 'index, follow' },
-  
-  // Open Graph Tags
-  { property: 'og:title', content: title },
-  { property: 'og:description', content: description },
-  { property: 'og:image', content: image },
-  { property: 'og:type', content: 'website' },
-  
-  // Twitter Cards
-  { name: 'twitter:card', content: 'summary_large_image' },
-  { name: 'twitter:title', content: title },
-  { name: 'twitter:description', content: description },
-  { name: 'twitter:image', content: image },
-];
-
 export const getSalonStructuredData = (
   name: string,
   description: string,
   image: string,
-  address: string,
-  phone: string,
-  url: string,
-  coordinates: { latitude: string; longitude: string }
+  telephone: string
 ): StructuredData => ({
   '@context': 'https://schema.org',
   '@type': 'HairSalon',
+  '@id': SITE_URL,
   name,
   description,
-  image,
-  '@id': url,
-  url,
-  telephone: phone,
+  url: SITE_URL,
+  telephone,
+  image: [
+    image,
+    `${SITE_URL}/images/salon-outside.jpg`,
+    `${SITE_URL}/images/salon-inside.jpg`
+  ],
   address: {
     '@type': 'PostalAddress',
-    streetAddress: address,
+    streetAddress: 'Ahnstraße 22',
     addressLocality: 'Cuxhaven',
     postalCode: '27472',
     addressCountry: 'DE'
   },
   geo: {
     '@type': 'GeoCoordinates',
-    latitude: coordinates.latitude,
-    longitude: coordinates.longitude
+    latitude: '53.8667',
+    longitude: '8.7'
   },
   openingHoursSpecification: [
     {
@@ -112,6 +132,6 @@ export const getSalonStructuredData = (
     }
   ],
   priceRange: '€€',
-  paymentAccepted: 'Cash, EC-Karte',
+  paymentAccepted: ['Cash', 'Credit Card', 'EC Card'],
   currenciesAccepted: 'EUR'
 });

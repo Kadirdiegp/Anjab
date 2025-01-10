@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSEO } from '../hooks/useSEO';
 import Hero from '../components/home/Hero';
 import Services from '../components/services/Services';
@@ -26,15 +26,15 @@ const Home: React.FC = () => {
   }, []);
 
   useSEO({
-    title: 'Haar Ambiente Cuxhaven - Ihr Friseursalon in Cuxhaven',
-    description: 'Willkommen bei Haar Ambiente in Cuxhaven. Professionelle Haar- und Beautypflege in entspannter Atmosphäre. Ahnstraße 22, Cuxhaven. Jetzt Termin vereinbaren: 04721 96 56 511',
+    title: 'Haar Ambiente Cuxhaven | Ihr Friseursalon für Stil und Wohlbefinden',
+    description: 'Willkommen bei Haar Ambiente in Cuxhaven. Professionelle Haarschnitte, Färbungen und Styling in entspannter Atmosphäre. Vereinbaren Sie jetzt Ihren Termin!',
     additionalMetaTags: [
-      { name: 'keywords', content: 'Friseur Cuxhaven, Haar Ambiente, Haarstyling, Beauty Salon, Friseursalon Cuxhaven, Ahnstraße' },
-      { property: 'og:locale', content: 'de_DE' },
-      { name: 'geo.region', content: 'DE-NI' },
-      { name: 'geo.placename', content: 'Cuxhaven' },
-      { name: 'geo.position', content: '53.8667;8.7' },
-      { name: 'ICBM', content: '53.8667, 8.7' }
+      { name: 'keywords', content: 'Friseur Cuxhaven, Haar Ambiente, Haarschnitt, Färben, Styling, Salon' },
+      { property: 'business:contact_data:street_address', content: 'Ahnstraße 22' },
+      { property: 'business:contact_data:locality', content: 'Cuxhaven' },
+      { property: 'business:contact_data:postal_code', content: '27472' },
+      { property: 'business:contact_data:country_name', content: 'Germany' },
+      { property: 'business:contact_data:phone_number', content: '+49 4721 39680' }
     ]
   });
 
@@ -43,31 +43,33 @@ const Home: React.FC = () => {
       <LoadingScreen isLoading={isLoading} />
       
       <StyledMain>
-        <AnimatedElement animation="fadeInDown" duration={0.8}>
-          <section id="hero">
-            <Hero />
-          </section>
-        </AnimatedElement>
+        <Suspense fallback={<LoadingScreen isLoading={false} />}>
+          <AnimatedElement animation="fadeInDown" duration={0.8}>
+            <section id="hero">
+              <Hero />
+            </section>
+          </AnimatedElement>
 
-        <AnimatedElement animation="slideInRight" delay={0.2} threshold={0.2}>
-          <section id="services">
-            <Services />
-          </section>
-        </AnimatedElement>
+          <AnimatedElement animation="slideInRight" delay={0.2} threshold={0.2}>
+            <section id="services">
+              <Services />
+            </section>
+          </AnimatedElement>
 
-        <AnimatedElement animation="fadeInUp" delay={0.3} threshold={0.2}>
-          <section id="about">
-            <About />
-          </section>
-        </AnimatedElement>
+          <AnimatedElement animation="fadeInUp" delay={0.3} threshold={0.2}>
+            <section id="about">
+              <About />
+            </section>
+          </AnimatedElement>
 
-        <AnimatedElement animation="slideInLeft" delay={0.4} threshold={0.2}>
-          <section id="contact">
-            <Contact />
-          </section>
-        </AnimatedElement>
+          <AnimatedElement animation="slideInLeft" delay={0.4} threshold={0.2}>
+            <section id="contact">
+              <Contact />
+            </section>
+          </AnimatedElement>
 
-        <ScrollToTop />
+          <ScrollToTop />
+        </Suspense>
       </StyledMain>
     </>
   );

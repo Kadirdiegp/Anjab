@@ -5,13 +5,21 @@
  */
 
 import { useEffect } from 'react';
-import { updateMetaTags, injectStructuredData, getDefaultMetaTags, getSalonStructuredData } from '../utils/seo';
+import { getDefaultMetaTags, getSalonStructuredData, updateMetaTags, injectStructuredData } from '../utils/seo';
 
-interface SEOProps {
-  title: string;
-  description: string;
+// Salon Information
+const SALON_INFO = {
+  name: 'Haar Ambiente Cuxhaven',
+  description: 'Ihr exklusiver Friseursalon in Cuxhaven. Professionelle Haarschnitte, Färbungen und Styling in entspannter Atmosphäre.',
+  address: 'Ahnstraße 22, 27472 Cuxhaven',
+  telephone: '+49 4721 39680',
+  image: '/images/salon-preview.jpg'
+};
+
+interface UseSEOProps {
+  title?: string;
+  description?: string;
   image?: string;
-  structuredData?: boolean;
   additionalMetaTags?: Array<{
     name?: string;
     property?: string;
@@ -19,46 +27,35 @@ interface SEOProps {
   }>;
 }
 
-const DEFAULT_IMAGE = '/images/salon-preview.jpg';
-const SALON_INFO = {
-  name: 'Haar Ambiente',
-  description: 'Ihr Friseursalon in Cuxhaven. Professionelle Haar- und Beautypflege in entspannter Atmosphäre.',
-  address: 'Ahnstraße 22, 27472 Cuxhaven',
-  phone: '+4947219656511',
-  url: 'https://haar-ambiente.de',
-  coordinates: {
-    latitude: '53.8667',
-    longitude: '8.7'
-  }
-};
-
 export const useSEO = ({
-  title,
-  description,
-  image = DEFAULT_IMAGE,
-  structuredData = true,
+  title = SALON_INFO.name,
+  description = SALON_INFO.description,
+  image = SALON_INFO.image,
   additionalMetaTags = []
-}: SEOProps) => {
+}: UseSEOProps = {}) => {
   useEffect(() => {
     // Update document title
-    document.title = `${title} | ${SALON_INFO.name}`;
+    document.title = title;
 
     // Update meta tags
-    const defaultTags = getDefaultMetaTags(title, description, image);
-    updateMetaTags([...defaultTags, ...additionalMetaTags]);
+    const metaTags = [
+      ...getDefaultMetaTags(title, description, image),
+      ...additionalMetaTags
+    ];
+    updateMetaTags(metaTags);
 
-    // Add structured data if needed
-    if (structuredData) {
-      const data = getSalonStructuredData(
-        SALON_INFO.name,
-        SALON_INFO.description,
-        image,
-        SALON_INFO.address,
-        SALON_INFO.phone,
-        SALON_INFO.url,
-        SALON_INFO.coordinates
-      );
-      injectStructuredData(data);
-    }
-  }, [title, description, image, structuredData, additionalMetaTags]);
+    // Update structured data
+    const structuredData = getSalonStructuredData(
+      SALON_INFO.name,
+      SALON_INFO.description,
+      SALON_INFO.image,
+      SALON_INFO.telephone
+    );
+    injectStructuredData(structuredData);
+
+    // Cleanup
+    return () => {
+      document.title = SALON_INFO.name;
+    };
+  }, [title, description, image, additionalMetaTags]);
 };
