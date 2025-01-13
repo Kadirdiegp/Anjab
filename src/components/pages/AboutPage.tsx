@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import AboutUs from '../home/AboutUs';
+import About from '../about/About';
 
 const PageContainer = styled.div`
   padding: 6rem 2rem 2rem;
@@ -26,7 +26,7 @@ const AboutPage: React.FC = () => {
     <PageContainer>
       <ContentContainer>
         <Title>Über uns</Title>
-        <AboutUs />
+        <About />
       </ContentContainer>
     </PageContainer>
   );
