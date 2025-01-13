@@ -2,7 +2,7 @@ import React from 'react';
 import Hero from '../home/Hero';
 import Gallery from '../home/Gallery';
 import Services from '../services/Services';
-import AboutUs from '../home/AboutUs';
+import About from '../about/About';
 import Contact from '../contact/Contact';
 
 const Home: React.FC = () => {
@@ -18,7 +18,7 @@ const Home: React.FC = () => {
         <Services />
       </section>
       <section id="about">
-        <AboutUs />
+        <About />
       </section>
       <section id="contact">
         <Contact />

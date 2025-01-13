@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { FaPlay } from 'react-icons/fa';
 import gsap from 'gsap';
-import { Link } from 'react-router-dom';
 
 const HeroSection = styled.section`
   min-height: 100vh;
@@ -115,66 +114,119 @@ const ButtonGroup = styled.div`
   }
 `;
 
-const PrimaryButton = styled(Link)`
-  background: ${props => props.theme.colors.accent};
-  color: white;
-  padding: 1rem 2rem;
-  border-radius: 30px;
-  font-family: ${props => props.theme.fonts.body};
+const PrimaryButton = styled.a`
+  display: inline-flex;
+  align-items: center;
+  padding: 1rem 2.5rem;
+  background: ${props => props.theme.colors.primary};
+  color: #fff;
+  border-radius: 50px;
+  font-size: 1rem;
   font-weight: 500;
   text-decoration: none;
-  transition: all 0.3s ease;
-  display: inline-block;
-  border: 2px solid ${props => props.theme.colors.accent};
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  cursor: pointer;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: ${props => props.theme.colors.primaryDark};
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: -1;
+  }
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    background: transparent;
-    color: ${props => props.theme.colors.accent};
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+
+    &::before {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+  }
+
+  &:active {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
   }
 `;
 
-const SecondaryButton = styled(Link)`
-  display: flex;
+const SecondaryButton = styled.a`
+  display: inline-flex;
   align-items: center;
-  gap: 0.8rem;
-  color: ${props => props.theme.colors.primary};
-  text-decoration: none;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  color: #000;
+  font-size: 1rem;
   font-weight: 500;
-  transition: all 0.3s ease;
-  padding: 0.5rem 1rem;
-  border-radius: 25px;
+  text-decoration: none;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: ${props => props.theme.colors.primary};
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
   .play-icon {
-    width: 40px;
-    height: 40px;
-    background: white;
-    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    width: 40px;
+    height: 40px;
+    background: ${props => props.theme.colors.primary};
+    border-radius: 50%;
+    color: #fff;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     
     svg {
       width: 12px;
       height: 12px;
       margin-left: 2px;
-      color: ${props => props.theme.colors.accent};
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
   }
 
   &:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    color: ${props => props.theme.colors.primary};
     
+    &::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
     .play-icon {
-      background: ${props => props.theme.colors.accent};
-      
+      transform: scale(1.1) rotate(360deg);
+      background: ${props => props.theme.colors.primaryDark};
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+
       svg {
-        color: white;
+        transform: scale(1.2);
       }
     }
+  }
+
+  &:active {
+    transform: translateY(-1px);
   }
 `;
 
@@ -304,10 +356,10 @@ const Hero: React.FC = () => {
             </Headline>
           </div>
           <ButtonGroup ref={buttonRef}>
-            <PrimaryButton to="/services">
+            <PrimaryButton href="#services">
               Unsere Services
             </PrimaryButton>
-            <SecondaryButton to="/galerie">
+            <SecondaryButton href="#galerie">
               <div className="play-icon">
                 <FaPlay />
               </div>

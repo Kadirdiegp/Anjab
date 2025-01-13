@@ -16,20 +16,20 @@ const GalleryContainer = styled.div`
   }
 `;
 
-const SectionNumber = styled.span`
-  font-size: 4rem;
-  opacity: 0.5;
+const SectionTitle = styled.h2`
   font-family: ${props => props.theme.fonts.heading};
-  display: block;
-  margin-bottom: 1rem;
-  color: #000;
+  font-size: 3rem;
+  margin-bottom: 3rem;
+  color: ${props => props.theme.colors.primary};
+  text-align: center;
+  font-weight: 400;
 `;
 
 const GalleryGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
-  margin-top: 4rem;
+  margin-top: 2rem;
 
   @media (max-width: 1024px) {
     grid-template-columns: repeat(2, 1fr);
@@ -95,7 +95,7 @@ const Gallery: React.FC = () => {
   return (
     <GallerySection id="galerie">
       <GalleryContainer>
-        <SectionNumber>02</SectionNumber>
+        <SectionTitle>Galerie</SectionTitle>
         <GalleryGrid>
           {galleryImages.map((image, index) => (
             <GalleryItem key={index}>

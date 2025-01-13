@@ -1,88 +1,122 @@
-/**
- * About Component
- * @author Kadir Diego Padin Rodriguez
- * @website rodriguez-digital.de
- */
-
 import React from 'react';
 import styled from 'styled-components';
-import LazyImage from '../common/LazyImage';
 
-const AboutSection = styled.section`
+const TeamSection = styled.section`
   padding: 6rem 0;
-  background: ${props => props.theme.colors.background};
+  background: #000;
+  color: #fff;
 `;
 
-const AboutContainer = styled.div`
-  max-width: 1200px;
+const TeamContainer = styled.div`
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: center;
+  text-align: center;
 
   @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    gap: 2rem;
+    padding: 0 1.5rem;
   }
 `;
 
-const AboutContent = styled.div`
-  h2 {
-    font-size: 2.5rem;
-    margin-bottom: 1.5rem;
-    color: ${props => props.theme.colors.primary};
-  }
-
-  p {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: ${props => props.theme.colors.text};
-    margin-bottom: 1.5rem;
-  }
+const SectionTitle = styled.h2`
+  font-family: ${props => props.theme.fonts.heading};
+  font-size: 3rem;
+  margin-bottom: 3rem;
+  color: #fff;
+  font-weight: 400;
+  text-align: center;
 `;
 
-const AboutImageWrapper = styled.div`
-  position: relative;
+const TeamGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+`;
+
+const TeamMember = styled.div`
+  text-align: center;
+`;
+
+const MemberImage = styled.div`
   width: 100%;
-  height: 500px;
-  border-radius: 10px;
+  height: 400px;
+  margin-bottom: 1.5rem;
+  position: relative;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover img {
+    transform: scale(1.05);
+  }
+`;
+
+const MemberName = styled.h3`
+  font-family: ${props => props.theme.fonts.heading};
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 400;
+`;
+
+const MemberRole = styled.p`
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+`;
+
+const MemberBio = styled.p`
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  line-height: 1.6;
 `;
 
 const About: React.FC = () => {
+  const teamMembers = [
+    {
+      name: 'Anja Behrens',
+      role: 'Meisterin',
+      image: 'https://images.unsplash.com/photo-1595959183082-7b570b7e08e2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80',
+      bio: 'Mit über 10 Jahren Erfahrung kreiert Sarah einzigartige Looks, die Ihre natürliche Schönheit unterstreichen.'
+    },
+    {
+      name: 'Lina Vincenza Fonto',
+      role: 'In Ausbildung',
+      image: 'https://images.unsplash.com/photo-1605980776566-0486c3ac7617?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80',
+      bio: 'In Ihren 2 Ausbildungsjahr'
+    },
+    {
+      name: 'Marie Weber',
+      role: 'Angestellt',
+      image: 'https://images.unsplash.com/photo-1605980776548-2a0c3e9b1e6e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80',
+      bio: 'Marie ist bekannt für ihre kreativen Hochsteckfrisuren und perfekten Styling-Techniken.'
+    }
+  ];
+
   return (
-    <AboutSection id="about">
-      <AboutContainer>
-        <AboutContent>
-          <h2>Über Uns</h2>
-          <p>
-            Willkommen in unserem exklusiven Luxury Salon. Seit über 15 Jahren bieten wir 
-            unseren Kunden erstklassige Haar- und Beautypflege in einer entspannten und 
-            luxuriösen Atmosphäre.
-          </p>
-          <p>
-            Unser Team aus erfahrenen Stylisten und Beauty-Experten ist stets auf dem 
-            neuesten Stand der Trends und Techniken. Wir verwenden ausschließlich 
-            hochwertige Produkte und arbeiten mit modernster Ausstattung.
-          </p>
-          <p>
-            Ihr Wohlbefinden und Ihre Zufriedenheit stehen bei uns an erster Stelle. 
-            Erleben Sie bei uns eine persönliche Beratung und individuelle Behandlung, 
-            die genau auf Ihre Wünsche und Bedürfnisse abgestimmt ist.
-          </p>
-        </AboutContent>
-        <AboutImageWrapper>
-          <LazyImage
-            src="/images/salon-interior.jpg"
-            alt="Luxury Salon Interior"
-            blur
-          />
-        </AboutImageWrapper>
-      </AboutContainer>
-    </AboutSection>
+    <TeamSection id="team">
+      <TeamContainer>
+        <SectionTitle>Unser Team</SectionTitle>
+        <TeamGrid>
+          {teamMembers.map((member, index) => (
+            <TeamMember key={index}>
+              <MemberImage>
+                <img src={member.image} alt={member.name} />
+              </MemberImage>
+              <MemberName>{member.name}</MemberName>
+              <MemberRole>{member.role}</MemberRole>
+              <MemberBio>{member.bio}</MemberBio>
+            </TeamMember>
+          ))}
+        </TeamGrid>
+      </TeamContainer>
+    </TeamSection>
   );
 };
 

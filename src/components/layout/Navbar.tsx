@@ -189,16 +189,16 @@ const Navbar: React.FC = () => {
             {isHomePage ? (
               <>
                 <StyledLink to="/" onClick={() => scrollToSection('home')}>Home</StyledLink>
-                <StyledLink to="/" onClick={() => scrollToSection('services')}>Services</StyledLink>
                 <StyledLink to="/" onClick={() => scrollToSection('galerie')}>Galerie</StyledLink>
+                <StyledLink to="/" onClick={() => scrollToSection('services')}>Services</StyledLink>
                 <StyledLink to="/" onClick={() => scrollToSection('about')}>Über uns</StyledLink>
                 <StyledLink to="/" onClick={() => scrollToSection('contact')}>Kontakt</StyledLink>
               </>
             ) : (
               <>
                 <StyledLink to="/" onClick={closeMenu}>Home</StyledLink>
-                <StyledLink to="/#services" onClick={closeMenu}>Services</StyledLink>
                 <StyledLink to="/#galerie" onClick={closeMenu}>Galerie</StyledLink>
+                <StyledLink to="/#services" onClick={closeMenu}>Services</StyledLink>
                 <StyledLink to="/#about" onClick={closeMenu}>Über uns</StyledLink>
                 <StyledLink to="/#contact" onClick={closeMenu}>Kontakt</StyledLink>
               </>

@@ -111,15 +111,6 @@ const ServiceHeader = styled.div`
   }
 `;
 
-const ServiceNumber = styled.span`
-  font-size: 0.9rem;
-  color: ${props => props.theme.colors.accent};
-  font-family: ${props => props.theme.fonts.heading};
-  margin-bottom: 0.5rem;
-  display: block;
-  letter-spacing: 1px;
-`;
-
 const ServiceTitle = styled.h3`
   font-family: ${props => props.theme.fonts.heading};
   font-size: 1.5rem;
@@ -229,72 +220,63 @@ const services = [
 
 const Services: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (!sectionRef.current || !titleRef.current) return;
 
-    const initAnimations = () => {
-      if (!sectionRef.current || !titleRef.current) return;
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top center+=100",
+        end: "bottom center",
+        toggleActions: "play none none reverse"
+      }
+    });
 
-      gsap.to(titleRef.current, {
-        scrollTrigger: {
-          trigger: titleRef.current,
-          start: "top bottom-=100",
-          toggleActions: "play none none reverse"
-        },
+    tl.to(titleRef.current, {
+      opacity: 1,
+      duration: 1,
+      ease: "power3.out"
+    });
+
+    cardsRef.current.forEach((card, index) => {
+      if (!card) return;
+      
+      gsap.to(card, {
         opacity: 1,
         y: 0,
-        duration: 1,
-        ease: "power3.out"
+        duration: 0.8,
+        delay: index * 0.2,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: card,
+          start: "top center+=100",
+          end: "bottom center",
+          toggleActions: "play none none reverse"
+        }
       });
-
-      cardsRef.current.forEach((card, index) => {
-        if (!card) return;
-        
-        gsap.to(card, {
-          scrollTrigger: {
-            trigger: card,
-            start: "top bottom-=50",
-            toggleActions: "play none none reverse"
-          },
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          delay: index * 0.1,
-          ease: "power3.out"
-        });
-      });
-    };
-
-    setTimeout(initAnimations, 100);
-
-    return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
+    });
   }, []);
 
   return (
-    <ServicesSection ref={sectionRef}>
+    <ServicesSection ref={sectionRef} id="services">
       <ServicesContainer>
-        <SectionTitle ref={titleRef}>
-          Unsere Services
-        </SectionTitle>
+        <SectionTitle ref={titleRef}>Unsere Services</SectionTitle>
         <ServicesGrid>
           {services.map((service, index) => (
             <ServiceCard
-              key={service.title}
+              key={index}
               ref={el => cardsRef.current[index] = el}
             >
               <ServiceHeader>
-                <ServiceNumber>{`Service ${String(index + 1).padStart(2, '0')}`}</ServiceNumber>
                 <ServiceTitle>{service.title}</ServiceTitle>
               </ServiceHeader>
               <ServiceDescription>{service.description}</ServiceDescription>
-              <BookButton href="tel:+4947219656511">
+              <BookButton href="#contact">
                 <PhoneIcon />
-                04721 96 56 511
+                Termin buchen
               </BookButton>
             </ServiceCard>
           ))}

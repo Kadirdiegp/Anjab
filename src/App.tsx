@@ -42,6 +42,11 @@ const App: React.FC = () => {
   useEffect(() => {
     // Initialize security features
     initSecurity();
+    
+    // Remove GitHub URL if present
+    if (window.location.href.includes('github.com')) {
+      window.history.replaceState({}, document.title, '/');
+    }
   }, []);
 
   return (

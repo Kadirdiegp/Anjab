@@ -9,9 +9,9 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 
-// Future flags for React Router v7
+// Router configuration
 const router = {
-  basename: '/',
+  basename: process.env.PUBLIC_URL || '/',
   future: {
     v7_startTransition: true,
     v7_relativeSplatPath: true
@@ -34,6 +34,11 @@ if ('serviceWorker' in navigator) {
         console.log('SW registration failed:', error);
       });
   });
+}
+
+// Remove GitHub URL from window.location
+if (window.location.href.includes('github.com')) {
+  window.history.replaceState({}, document.title, '/');
 }
 
 root.render(
