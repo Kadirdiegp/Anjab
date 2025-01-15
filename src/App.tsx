@@ -25,6 +25,7 @@ const Navbar = lazy(() => import('./components/layout/Navbar'));
 const Footer = lazy(() => import('./components/layout/Footer'));
 const Home = lazy(() => import('./components/pages/Home'));
 const Gallery = lazy(() => import('./components/home/Gallery'));
+const AboutPage = lazy(() => import('./components/pages/AboutPage'));
 
 // Loading fallback component
 const PageLoader = () => (
@@ -70,6 +71,14 @@ const App: React.FC = () => {
                 element={
                   <Suspense fallback={<PageLoader />}>
                     <Gallery />
+                  </Suspense>
+                } 
+              />
+              <Route 
+                path="/about" 
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <AboutPage />
                   </Suspense>
                 } 
               />

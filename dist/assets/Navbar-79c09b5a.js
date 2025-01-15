@@ -1,4 +1,4 @@
-import{s as i,r as a,u,j as o,L as m}from"./index-9ac79fae.js";import{F as b,a as f}from"./index.esm-5f90b012.js";const k="/assets/HAAR-abbdc6c3.png",v=i.nav`
+import{s as i,r as a,u,j as o,L as m}from"./index-d811ee04.js";import{F as b,a as f}from"./index.esm-85eaa27b.js";const k="/assets/HAAR-abbdc6c3.png",v=i.nav`
   position: fixed;
   top: 0;
   left: 0;
@@ -103,4 +103,4 @@ import{s as i,r as a,u,j as o,L as m}from"./index-9ac79fae.js";import{F as b,a a
     z-index: 999;
   }
 `,E=()=>{const[e,c]=a.useState(!1),[h,x]=a.useState(!1),l=u().pathname==="/";a.useEffect(()=>{const s=()=>{x(window.scrollY>50)};return window.addEventListener("scroll",s),()=>window.removeEventListener("scroll",s)},[]),a.useEffect(()=>(e?document.body.style.overflow="hidden":document.body.style.overflow="unset",()=>{document.body.style.overflow="unset"}),[e]);const r=s=>{if(n(),l){const d=document.getElementById(s);d&&d.scrollIntoView({behavior:"smooth"})}},p=()=>{c(!e)},n=()=>{c(!1)},g=s=>{l&&(s.preventDefault(),window.scrollTo({top:0,behavior:"smooth"})),n()};return o.jsxs(o.Fragment,{children:[o.jsx(v,{$isScrolled:h,children:o.jsxs(j,{children:[o.jsx(w,{to:"/",onClick:g,children:o.jsx("img",{src:k,alt:"Haar Ambiente Logo"})}),o.jsx($,{onClick:p,"aria-label":"Toggle menu",children:e?o.jsx(b,{}):o.jsx(f,{})}),o.jsx(y,{$isOpen:e,children:l?o.jsxs(o.Fragment,{children:[o.jsx(t,{to:"/",onClick:()=>r("home"),children:"Home"}),o.jsx(t,{to:"/",onClick:()=>r("galerie"),children:"Galerie"}),o.jsx(t,{to:"/",onClick:()=>r("services"),children:"Services"}),o.jsx(t,{to:"/",onClick:()=>r("about"),children:"Über uns"}),o.jsx(t,{to:"/",onClick:()=>r("contact"),children:"Kontakt"})]}):o.jsxs(o.Fragment,{children:[o.jsx(t,{to:"/",onClick:n,children:"Home"}),o.jsx(t,{to:"/#galerie",onClick:n,children:"Galerie"}),o.jsx(t,{to:"/#services",onClick:n,children:"Services"}),o.jsx(t,{to:"/#about",onClick:n,children:"Über uns"}),o.jsx(t,{to:"/#contact",onClick:n,children:"Kontakt"})]})})]})}),o.jsx(C,{$isOpen:e,onClick:n})]})};export{E as default};
-//# sourceMappingURL=Navbar-ae5f76d5.js.map
+//# sourceMappingURL=Navbar-79c09b5a.js.map

@@ -3,31 +3,19 @@ import styled from 'styled-components';
 import About from '../about/About';
 
 const PageContainer = styled.div`
-  padding: 6rem 2rem 2rem;
   min-height: 100vh;
   background: ${props => props.theme.colors.background};
-`;
-
-const ContentContainer = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-`;
-
-const Title = styled.h1`
-  font-family: ${props => props.theme.fonts.heading};
-  font-size: 2.5rem;
-  color: ${props => props.theme.colors.primary};
-  margin-bottom: 2rem;
-  text-align: center;
+  padding-top: 80px; // Füge Padding hinzu, um unter der Navbar zu beginnen
 `;
 
 const AboutPage: React.FC = () => {
+  console.log('AboutPage rendering'); // Debug log
+  
   return (
     <PageContainer>
-      <ContentContainer>
-        <Title>Über uns</Title>
+      <div style={{ border: '1px solid red' }}> {/* Temporärer Debug-Rahmen */}
         <About />
-      </ContentContainer>
+      </div>
     </PageContainer>
   );
 };
